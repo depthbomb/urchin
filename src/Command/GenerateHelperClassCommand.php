@@ -93,7 +93,7 @@ class GenerateHelperClassCommand extends Command
         $class->addMethod('getGeneratedDate')
             ->setPublic()
             ->setStatic()
-            ->setComment("Returns the date that this util class was generated\n\n@return DateTimeImmutable")
+            ->setComment("Returns the date that this class was generated\n\n@return DateTimeImmutable")
             ->setReturnType('DateTimeImmutable')
             ->setBody(sprintf('return date_create_immutable(\'%s\');', $now->format('c')))
             ->setFinal();

@@ -89,7 +89,7 @@ class GenerateHelperCommand extends Command
         $file->addComment("This file was automatically generated on {$now->format('c')}. DO NOT modify directly.");
 
         $file->addFunction('get_generated_date')
-            ->setComment('Returns the date that this util class was generated\n\n@return DateTimeImmutable')
+            ->setComment("Returns the date that this helper was generated\n\n@return DateTimeImmutable")
             ->setReturnType('DateTimeImmutable')
             ->setBody(sprintf('return date_create_immutable(\'%s\');', $now->format('c')));
 
