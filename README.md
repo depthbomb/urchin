@@ -1,6 +1,6 @@
 # urchin
 
-`urchin` is a simple PHP command line tool for generating helpers for retrieving versioned assets output from Vite. Because the helpers store the contents of the manifest in pure PHP, there is no extra overhead resulting from having to parse the manifest.json file.
+`urchin` is a simple PHP command line tool for generating helpers for retrieving versioned assets output from [Vite](https://vitejs.dev/). Because the helpers store the contents of [the manifest](https://vitejs.dev/guide/backend-integration.html) in pure PHP there is no extra overhead resulting from having to parse the manifest.json file.
 
 urchin was created specifically for my contributed web services for `super.fish` and _does_ require a specific, but simple, setup for it to work.
 
