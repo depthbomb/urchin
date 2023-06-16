@@ -1,0 +1,20 @@
+{
+    "type": "project",
+    "require": {
+        "php": ">=8.2",
+        "symfony/console": "6.3.*",
+        "symfony/polyfill-php83": "^1.27.0",
+        "nette/php-generator": "^4"
+    },
+    "scripts": {
+        "compile": [
+            "composer dump-autoload -a",
+            "php --define phar.readonly=0 bin/create-phar.php"
+        ]
+    },
+    "autoload": {
+        "psr-4": {
+            "Urchin\\": "src/"
+        }
+    }
+}
