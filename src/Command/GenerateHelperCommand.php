@@ -83,7 +83,8 @@ class GenerateHelperCommand extends Command
 
     private function generateHelperFile(array $preload, array $assets, array $js_entries, array $css_entries): string
     {
-        $now  = date_create_immutable();
+        $now = date_create_immutable();
+
         $file = new PhpFile;
         $file->setStrictTypes();
         $file->addComment("This file was automatically generated on {$now->format('c')}. DO NOT modify directly.");

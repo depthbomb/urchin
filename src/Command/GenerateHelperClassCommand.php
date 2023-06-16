@@ -3,6 +3,7 @@
 use Exception;
 use Urchin\Util\Fs;
 use Urchin\Util\ManifestParser;
+use Nette\PhpGenerator\PhpFile;
 use Nette\PhpGenerator\PhpNamespace;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;
@@ -84,12 +85,17 @@ class GenerateHelperClassCommand extends Command
 
     private function generateClassString(string $class_namespace, array $preload, array $assets, array $js_entries, array $css_entries): string
     {
-        $now       = date_create_immutable();
-        $namespace = new PhpNamespace($class_namespace);
+        $now = date_create_immutable();
+
+        $file = new PhpFile;
+        $file->setStrictTypes();
+
+        $file->addComment("This file was automatically generated on {$now->format('c')}. DO NOT modify directly.");
+        $namespace = $file->addNamespace($class_namespace);
         $namespace->addUse('DateTimeImmutable');
 
         $class = $namespace->addClass('Assets');
-        $class->setComment("This file was automatically generated on {$now->format('c')}. DO NOT modify directly.\n\nThis class allows for retrieving of versioned static assets generated from the frontend build process.")->setFinal();
+        $class->setComment("This class allows for retrieving of versioned assets processed from Vite.")->setFinal();
         $class->addMethod('getGeneratedDate')
             ->setPublic()
             ->setStatic()
@@ -97,6 +103,7 @@ class GenerateHelperClassCommand extends Command
             ->setReturnType('DateTimeImmutable')
             ->setBody(sprintf('return date_create_immutable(\'%s\');', $now->format('c')))
             ->setFinal();
+
         $class->addMethod('getPreloadAssets')
             ->setPublic()
             ->setStatic()
@@ -104,6 +111,7 @@ class GenerateHelperClassCommand extends Command
             ->setReturnType('array')
             ->setBody(sprintf('return %s;', var_export($preload, true)))
             ->setFinal();
+
         $class->addMethod('getVersionedAssets')
             ->setPublic()
             ->setStatic()
@@ -111,6 +119,7 @@ class GenerateHelperClassCommand extends Command
             ->setReturnType('array')
             ->setBody(sprintf('return %s;', var_export($assets, true)))
             ->setFinal();
+
         $class->addMethod('getVersionedAsset')
             ->setPublic()
             ->setStatic()
@@ -119,6 +128,7 @@ class GenerateHelperClassCommand extends Command
             ->setFinal()
             ->setReturnType('?string')
             ->addParameter('original_name')->setType('string');
+
         $class->addMethod('getJsEntries')
             ->setPublic()
             ->setStatic()
@@ -126,6 +136,7 @@ class GenerateHelperClassCommand extends Command
             ->setReturnType('array')
             ->setBody(sprintf('return %s;', var_export($js_entries, true)))
             ->setFinal();
+
         $class->addMethod('getCssEntries')
             ->setPublic()
             ->setStatic()
@@ -134,6 +145,6 @@ class GenerateHelperClassCommand extends Command
             ->setBody(sprintf('return %s;', var_export($css_entries, true)))
             ->setFinal();
 
-        return "<?php $namespace";
+        return $file;
     }
 }
