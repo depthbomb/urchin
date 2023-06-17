@@ -2,9 +2,9 @@
 
 class Fs
 {
-    public static function joinPath(string ...$paths): string
+    public static function join(string ...$paths): string
     {
         $paths = array_map(fn (string $path) => rtrim(str_replace(["\\", "/"], DIRECTORY_SEPARATOR, $path), DIRECTORY_SEPARATOR), $paths);
-        return implode(DIRECTORY_SEPARATOR, $paths);
+        return join(DIRECTORY_SEPARATOR, $paths);
     }
 }

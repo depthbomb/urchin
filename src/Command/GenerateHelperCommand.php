@@ -29,9 +29,9 @@ class GenerateHelperCommand extends Command
     {
         $io            = new SymfonyStyle($input, $output);
         $helper_dir    = realpath($input->getArgument('helper-dir'));
-        $helper_path   = Fs::joinPath($helper_dir, 'assets.php');
+        $helper_path   = Fs::join($helper_dir, 'assets.php');
         $manifest_dir  = realpath($input->getArgument('manifest-dir'));
-        $manifest_path = Fs::joinPath($manifest_dir, 'manifest.json');
+        $manifest_path = Fs::join($manifest_dir, 'manifest.json');
 
         if (!file_exists($manifest_path))
         {
