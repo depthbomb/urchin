@@ -31,12 +31,6 @@ jobs:
           level: ${{ github.event.inputs.level }}
           token: ${{ github.token }}
 
-      - name: Release
-        uses: softprops/action-gh-release@v1
-        with:
-          generate_release_notes: true
-          tag_name: ${{ steps.calver.outputs.version }}
-
   build:
     runs-on: ubuntu-latest
     needs: [bump-version]
