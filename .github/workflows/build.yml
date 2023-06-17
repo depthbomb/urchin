@@ -1,0 +1,31 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - v*
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v3
+        with:
+          path: /tmp/composer-cache
+          key: ${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
+      - name: Install Composer Dependencies
+        uses: php-actions/composer@v6
+
+      - name: Compile
+        uses: php-actions/composer@v6
+        with:
+          command: run compile
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: urchin.phar
