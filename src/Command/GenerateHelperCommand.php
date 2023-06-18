@@ -13,7 +13,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(
-    name: 'generate-helper',
+    name       : 'generate-helper',
     description: 'Generates an asset helper file based off of Vite\'s output manifest.json',
 )]
 class GenerateHelperCommand extends Command
@@ -63,7 +63,7 @@ class GenerateHelperCommand extends Command
 
             file_put_contents($helper_path, $php_file);
 
-            if ((bool)$input->getOption('delete-manifest'))
+            if ((bool) $input->getOption('delete-manifest'))
             {
                 $io->writeln('Deleting <fg=yellow>manifest.json</>...');
                 unlink($manifest_path);

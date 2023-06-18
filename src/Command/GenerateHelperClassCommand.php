@@ -4,7 +4,6 @@ use Exception;
 use Urchin\Util\Fs;
 use Urchin\Util\ManifestParser;
 use Nette\PhpGenerator\PhpFile;
-use Nette\PhpGenerator\PhpNamespace;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -14,7 +13,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(
-    name: 'generate-class',
+    name       : 'generate-class',
     description: 'Generates an asset helper class based off of Vite\'s output manifest.json',
 )]
 class GenerateHelperClassCommand extends Command
@@ -65,7 +64,7 @@ class GenerateHelperClassCommand extends Command
 
             file_put_contents($helper_path, $class_string);
 
-            if ((bool)$input->getOption('delete-manifest'))
+            if ((bool) $input->getOption('delete-manifest'))
             {
                 $io->writeln('Deleting <fg=yellow>manifest.json</>...');
                 unlink($manifest_path);
