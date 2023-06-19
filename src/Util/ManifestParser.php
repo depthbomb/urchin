@@ -10,13 +10,12 @@ class ManifestParser
     public static function parse(string $manifest_path): array
     {
         $json = file_get_contents($manifest_path);
+        $data = json_decode($json);
 
-        if (!json_validate($json))
+        if (json_last_error() !== JSON_ERROR_NONE)
         {
             throw new Exception('manifest.json contains invalid JSON');
         }
-
-        $data = json_decode($json);
 
         $preload     = [];
         $assets      = [];
