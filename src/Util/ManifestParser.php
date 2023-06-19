@@ -7,7 +7,7 @@ class ManifestParser
     /**
      * @throws Exception
      */
-    public static function parse(string $manifest_path, array &$preload, array &$assets, array &$js_entries, array &$css_entries): void
+    public static function parse(string $manifest_path): array
     {
         $json = file_get_contents($manifest_path);
 
@@ -17,6 +17,11 @@ class ManifestParser
         }
 
         $data = json_decode($json);
+
+        $preload     = [];
+        $assets      = [];
+        $js_entries  = [];
+        $css_entries = [];
 
         foreach ($data as $original => $info)
         {
@@ -50,5 +55,7 @@ class ManifestParser
                 }
             }
         }
+
+        return [$preload, $assets, $js_entries, $css_entries];
     }
 }

@@ -42,18 +42,15 @@ class GenerateHelperCommand extends Command
 
         $io->writeln('Parsing <fg=yellow>manifest.json</> file...');
 
-        /** @var string[] $preload */
-        $preload = [];
-        /** @var string[] $assets */
-        $assets = [];
-        /** @var string[] $js_entries */
-        $js_entries = [];
-        /** @var string[] $css_entries */
-        $css_entries = [];
-
         try
         {
-            ManifestParser::parse($manifest_path, $preload, $assets, $js_entries, $css_entries);
+            /**
+             * @var $preload string[]
+             * @var $assets string[][]
+             * @var $js_entries string[]
+             * @var $css_entries string[]
+             */
+            [$preload, $assets, $js_entries, $css_entries] = ManifestParser::parse($manifest_path);
 
             $io->writeln(sprintf('Generating helper from <fg=yellow>%d</> assets...', count($assets)));
 
