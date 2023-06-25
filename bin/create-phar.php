@@ -1,5 +1,7 @@
 <?php
 
+$phar_name = 'urchin.phar';
+
 try
 {
     function add_directory(Phar $phar, string $directory): void
@@ -28,7 +30,12 @@ try
         }
     }
 
-    $phar = new Phar('urchin.phar');
+    if (file_exists($phar_name))
+    {
+        unlink($phar_name);
+    }
+
+    $phar = new Phar($phar_name);
     $phar->startBuffering();
 
     add_directory($phar, 'src');
