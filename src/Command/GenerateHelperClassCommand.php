@@ -105,7 +105,7 @@ class GenerateHelperClassCommand extends Command
             ->setStatic()
             ->setComment("Returns an array of public asset paths that should be preloaded\n\n@return string[]")
             ->setReturnType('array')
-            ->setBody(sprintf('return %s;', var_export($preload, true)))
+            ->setBody(sprintf('return %s;', $this->generatePhpArray($preload)))
             ->setFinal();
 
         $class->addMethod('getVersionedAssets')
@@ -113,7 +113,7 @@ class GenerateHelperClassCommand extends Command
             ->setStatic()
             ->setComment("Returns an array of all public asset paths\n\n@return string[]")
             ->setReturnType('array')
-            ->setBody(sprintf('return %s;', var_export($assets, true)))
+            ->setBody(sprintf('return %s;', $this->generatePhpArray($assets)))
             ->setFinal();
 
         $class->addMethod('getVersionedAsset')
@@ -130,7 +130,7 @@ class GenerateHelperClassCommand extends Command
             ->setStatic()
             ->setComment("Returns an array of public asset paths that are used as JavaScript entries\n\n@return string[]")
             ->setReturnType('array')
-            ->setBody(sprintf('return %s;', var_export($js_entries, true)))
+            ->setBody(sprintf('return %s;', $this->generatePhpArray($js_entries)))
             ->setFinal();
 
         $class->addMethod('getCssEntries')
@@ -138,9 +138,16 @@ class GenerateHelperClassCommand extends Command
             ->setStatic()
             ->setComment("Returns an array of public asset paths that are used as CSS entries\n\n@return string[]")
             ->setReturnType('array')
-            ->setBody(sprintf('return %s;', var_export($css_entries, true)))
+            ->setBody(sprintf('return %s;', $this->generatePhpArray($css_entries)))
             ->setFinal();
 
         return $file;
+    }
+
+    private function generatePhpArray(array $arr): string
+    {
+        $php_array = var_export($arr, true);
+
+        return preg_replace('/\s+/', '', $php_array);
     }
 }

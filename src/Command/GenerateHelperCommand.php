@@ -94,12 +94,12 @@ class GenerateHelperCommand extends Command
         $file->addFunction('get_preload_assets')
             ->setComment("Returns an array of public asset paths that should be preloaded\n\n@return string[]")
             ->setReturnType('array')
-            ->setBody(sprintf('return %s;', var_export($preload, true)));
+            ->setBody(sprintf('return %s;', $this->generatePhpArray($preload)));
 
         $file->addFunction('get_versioned_assets')
             ->setComment("Returns an array of all public asset paths\n\n@return string[]")
             ->setReturnType('array')
-            ->setBody(sprintf('return %s;', var_export($assets, true)));
+            ->setBody(sprintf('return %s;', $this->generatePhpArray($assets)));
 
         $file->addFunction('get_versioned_asset')
             ->setComment("Returns the public asset path of a file by its original name\n\n@param string \$original_name\n\n@return string|null")
@@ -110,13 +110,20 @@ class GenerateHelperCommand extends Command
         $file->addFunction('get_js_entries')
             ->setComment("Returns an array of public asset paths that are used as JavaScript entries\n\n@return string[]")
             ->setReturnType('array')
-            ->setBody(sprintf('return %s;', var_export($js_entries, true)));
+            ->setBody(sprintf('return %s;', $this->generatePhpArray($js_entries)));
 
         $file->addFunction('get_css_entries')
             ->setComment("Returns an array of public asset paths that are used as CSS entries\n\n@return string[]")
             ->setReturnType('array')
-            ->setBody(sprintf('return %s;', var_export($css_entries, true)));
+            ->setBody(sprintf('return %s;', $this->generatePhpArray($css_entries)));
 
         return $file;
+    }
+
+    private function generatePhpArray(array $arr): string
+    {
+        $php_array = var_export($arr, true);
+
+        return preg_replace('/\s+/', '', $php_array);
     }
 }
