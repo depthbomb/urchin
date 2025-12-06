@@ -1,9 +1,9 @@
 {
     "type": "project",
     "require": {
-        "php": ">=8.2",
-        "symfony/console": "6.3.*",
-        "nette/php-generator": "^4"
+        "php": ">=8.4",
+        "symfony/console": "8.*",
+        "nette/php-generator": "4.*"
     },
     "scripts": {
         "compile": [

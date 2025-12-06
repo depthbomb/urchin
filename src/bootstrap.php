@@ -2,12 +2,10 @@
 
 use Urchin\Command\GenerateHelperCommand;
 use Symfony\Component\Console\Application;
-use Urchin\Command\GenerateHelperClassCommand;
 use Symfony\Component\Console\CommandLoader\FactoryCommandLoader;
 
 $loader = new FactoryCommandLoader([
-    'generate-helper' => fn () => new GenerateHelperCommand(),
-    'generate-class'  => fn () => new GenerateHelperClassCommand(),
+    'generate' => fn () => new GenerateHelperCommand(),
 ]);
 
 $app = new Application('urchin');

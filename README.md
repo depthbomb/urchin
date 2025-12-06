@@ -1,13 +1,6 @@
 # urchin
 
-`urchin` is a simple PHP command line tool for generating helpers for retrieving versioned assets output from [Vite](https://vitejs.dev/). Because the helpers store the contents of [the manifest](https://vitejs.dev/guide/backend-integration.html) in pure PHP there is no extra overhead resulting from having to parse the manifest.json file.
-
-urchin was created specifically for my contributed web services for `super.fish` and _does_ require a specific, but simple, setup for it to work.
-
-urchin assumes that
-
-- Your Vite config is set up to generate a normal manifest.json file after building
-- Your assets output from Vite are placed in an `/assets/` subdirectory in your website's public root
+`urchin` is a simple PHP command line tool for generating a helper class for retrieving versioned assets output from [Vite](https://vitejs.dev/), removing the overhead of having to parse the manifest yourself.
 
 ---
 
@@ -17,25 +10,32 @@ Download the `urchin.phar` from the latest release.
 
 ## Usage
 
-urchin can generate either a static helper class or a helper file containing functions.
+```shell
+Usage:
+  command [options] [arguments]
 
- The helper class command requires 2 arguments, 1 option, and has 1 optional option:
+Options:
+  -h, --help            Display help for the given command. When no command is given display help for the list command
+      --silent          Do not output any message
+  -q, --quiet           Only errors are displayed. All other output is suppressed
+  -V, --version         Display this application version
+      --ansi|--no-ansi  Force (or disable --no-ansi) ANSI output
+  -n, --no-interaction  Do not ask any interactive question
+  -v|vv|vvv, --verbose  Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 
-
-```console
-php urchin.phar generate-class ./path/to/class/dir ./path/to/manifest/file/dir --namespace=My\\Namespace -d
+Available commands:
+  completion  Dump the shell completion script
+  generate    Generates an asset helper class based off of Vite's output manifest.json
+  help        Display help for a command
+  list        List commands
 ```
 
-The above command will generate an `Assets.php` file located at `./path/to/class/dir/Assets.php` with the namespace `My\Namespace` from assets located in the manifest.json file at `./path/to/manifest/file/dir/manifest.json`. The `-d` flag will delete the manifest.json after generating the class.
+## Example
+
+```console
+php urchin.phar generate ./path/to/generated/class/dir ./path/to/manifest/file/dir --namespace=My\Namespace -d
+```
+
+The above command will generate an `Assets.php` file located at `./path/to/generated/class/dir/Assets.php` with the namespace `My\Namespace` from assets located in the manifest.json file at `./path/to/manifest/file/dir/manifest.json`. The `-d` flag will delete the manifest.json after generating the class.
 
 ![Generated helper class](./art/class.png)
-
-The command for generating the simpler helper file is similar:
-
-```console
-php urchin.phar generate-helper ./path/to/helper/dir ./path/to/manifest/file/dir -d
-```
-
-This will generate an `assets.php` file located at `./path/to/helper/dir/assets.php` from assets located in the manifest.json file at `./path/to/manifest/file/dir/manifest.json`. This command also has the same `-d` flag.
-
-![Generated helper](./art/helper.png)
