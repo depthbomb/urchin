@@ -18,11 +18,12 @@ final class GenerateHelperCommand extends Command
 {
     protected function configure(): void
     {
-        $this->addArgument('helper-dir', InputArgument::REQUIRED, 'The path to the directory where the helper will be generated');
-        $this->addArgument('manifest-dir', InputArgument::REQUIRED, 'The path to the directory containing <fg=yellow>manifest.json</>');
-        $this->addOption('namespace', null, InputOption::VALUE_REQUIRED, 'The namespace for the generated helper');
-        $this->addOption('delete-manifest', 'd', InputOption::VALUE_NONE, 'Whether to delete the <fg=yellow>manifest.json</> file after generating the helper');
-        $this->addOption('path-prefix', 'p', InputOption::VALUE_OPTIONAL, 'The prefix to prepend to the beginning of versioned asset paths in the generated class', '/');
+        $this
+            ->addArgument('helper-dir', InputArgument::REQUIRED, 'The path to the directory where the helper will be generated')
+            ->addArgument('manifest-dir', InputArgument::REQUIRED, 'The path to the directory containing <fg=yellow>manifest.json</>')
+            ->addOption('namespace', null, InputOption::VALUE_REQUIRED, 'The namespace for the generated helper')
+            ->addOption('delete-manifest', 'd', InputOption::VALUE_NONE, 'Whether to delete the <fg=yellow>manifest.json</> file after generating the helper')
+            ->addOption('path-prefix', 'p', InputOption::VALUE_OPTIONAL, 'The prefix to prepend to the beginning of versioned asset paths in the generated class', '/');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
