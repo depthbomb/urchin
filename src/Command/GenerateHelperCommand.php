@@ -22,6 +22,7 @@ final class GenerateHelperCommand extends Command
         $this->addArgument('manifest-dir', InputArgument::REQUIRED, 'The path to the directory containing <fg=yellow>manifest.json</>');
         $this->addOption('namespace', null, InputOption::VALUE_REQUIRED, 'The namespace for the generated helper');
         $this->addOption('delete-manifest', 'd', InputOption::VALUE_NONE, 'Whether to delete the <fg=yellow>manifest.json</> file after generating the helper');
+        $this->addOption('path-prefix', 'p', InputOption::VALUE_OPTIONAL, 'The prefix to prepend to the beginning of versioned asset paths in the generated class', '/');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -31,6 +32,7 @@ final class GenerateHelperCommand extends Command
         $helper_path   = self::joinPath($helper_dir, 'Assets.php');
         $manifest_dir  = realpath($input->getArgument('manifest-dir'));
         $manifest_path = self::joinPath($manifest_dir, 'manifest.json');
+        $prefix        = $input->getOption('path-prefix');
 
         if (!file_exists($manifest_path))
         {
@@ -50,6 +52,12 @@ final class GenerateHelperCommand extends Command
              * @var $css_entries string[]
              */
             [$preload, $assets, $js_entries, $css_entries] = self::parse($manifest_path);
+
+            $prepend     = fn (string $path) => $prefix.'/'.ltrim($path, '/');
+            $preload     = array_map($prepend, $preload);
+            $assets      = array_map($prepend, $assets);
+            $js_entries  = array_map($prepend, $js_entries);
+            $css_entries = array_map($prepend, $css_entries);
 
             $io->writeln(sprintf('Generating class from <fg=yellow>%d</> assets...', count($assets)));
 
@@ -85,7 +93,7 @@ final class GenerateHelperCommand extends Command
         $file->setStrictTypes();
         $file->addComment("This file was automatically generated on {$now->format('c')}. DO NOT modify directly.");
 
-        $namespace = $file->addNamespace($class_namespace);
+        $namespace = $file->addNamespace(new Literal($class_namespace));
         $namespace->addUse('DateTimeImmutable');
 
         $class = $namespace->addClass('Assets');
